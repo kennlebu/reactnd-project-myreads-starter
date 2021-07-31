@@ -196,3 +196,8 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+.no-books-found {
+  color: #999;
+  text-align: center;
+}

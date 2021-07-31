@@ -3,7 +3,7 @@ import Book from './Book';
 
 class Shelf extends Component {
     rearrangeBooks = (book) => {
-        this.props.books.map(b => {
+        this.props.books.find(b => {
             if(book.id === b.id) {
                 b = book;
             }
@@ -18,7 +18,7 @@ class Shelf extends Component {
                     <h2 className="bookshelf-title">{this.props.shelf.label}</h2>
                     <div className="bookshelf-books">
                         <ol className="books-grid">
-                        {this.props.books.filter((b) => b.shelf === this.props.shelf.key)
+                            {this.props.books.filter((b) => b.shelf === this.props.shelf.key)
                             .map((book) => (
                                 <li key={book.id}>
                                     <Book book={book} rearrange={this.rearrangeBooks} />

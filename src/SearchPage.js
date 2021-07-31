@@ -1,15 +1,52 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
+import * as BooksAPI from './BooksAPI';
 
 class SearchPage extends Component {
     state = {
         query: '',
-        results: []
+        books: [],
+        no_books: false
     }
 
-    doSearch = () => {
-        //TODO: Search results from backend
+    doSearch = (query) => {
+        BooksAPI.search(query)
+        .then(results => {
+            if(results.error) {
+                this.setState(() => ({
+                    no_books: true
+                }))
+            } else {
+                this.setState(() => ({
+                    books: results.map(search_book => {
+                        let m_book = this.props.my_books.find(b => b.id === search_book.id);
+                        search_book['shelf'] = m_book ? m_book.shelf : '';
+                        return search_book;
+                    }),
+                    no_books: false
+                }))
+            }
+        })
+    }
+
+    clearSearch = () => {
+        this.setState(() => ({
+            books: [],
+            no_books: false
+        }))
+    }
+
+    search = (query) => {
+        this.setState(() => ({
+            query: query
+        }))
+
+        if(query) {
+            this.doSearch(query);
+        } else {
+            this.clearSearch();
+        }
     }
 
     render() {
@@ -27,17 +64,22 @@ class SearchPage extends Component {
                             However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                             you don't find a specific author or title. Every search is limited by search terms.
                             */}
-                            <input type="text" placeholder="Search by title or author"/>
-
+                            <input type="text" placeholder="Search by title or author"
+                                value={this.state.query}
+                                onChange={(event) => this.search(event.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid">
-                        {this.state.results.map(book => (
-                            <Book book={book} />
+                    {this.state.no_books && <h2 className="no-books-found">No books were found</h2>}
+                    {!this.state.no_books && <ol className="books-grid">
+                        {this.state.books.map(book => (
+                            <li key={book.id}>
+                                <Book book={book} />
+                            </li>
                         ))}
-                    </ol>
+                    </ol>}
                 </div>
             </div>
         )
