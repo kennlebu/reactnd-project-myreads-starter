@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Shelf from './Shelf';
+import * as BooksAPI from './BooksAPI'
 
 const shelves = [
     { key: "currentlyReading", label: "Currently Reading" },
@@ -12,9 +13,16 @@ class HomePage extends Component {
     state = {
         books: []
     }
+
     componentDidMount() {
-        //TODO: Fetch books
+        BooksAPI.getAll()
+        .then(books => {
+            this.setState(() => ({
+                books: books
+            }));
+        });
     }
+
     render() {
         return (
             <div className="list-books">
@@ -24,7 +32,7 @@ class HomePage extends Component {
                 <div className="list-books-content">
                     <div>
                         {shelves.map(shelf => (
-                            <Shelf shelf={shelf} books={this.state.books} />
+                            <Shelf key={shelf.key} shelf={shelf} books={this.state.books} />
                         ))}
                     </div>
                 </div>
