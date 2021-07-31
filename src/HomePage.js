@@ -9,6 +9,10 @@ const shelves = [
 ];
 
 class HomePage extends Component {
+    reloadBooks = () => {
+        this.props.reloadBooks();
+    }
+
     render() {
         return (
             <div className="list-books">
@@ -18,7 +22,7 @@ class HomePage extends Component {
                 <div className="list-books-content">
                     <div>
                         {shelves.map(shelf => (
-                            <Shelf key={shelf.key} shelf={shelf} books={this.props.books} />
+                            <Shelf key={shelf.key} shelf={shelf} books={this.props.books} refreshBooks={this.reloadBooks} />
                         ))}
                     </div>
                 </div>

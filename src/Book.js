@@ -5,9 +5,11 @@ import * as BooksAPI from './BooksAPI';
 class Book extends Component {
     update = (new_shelf) => {
         BooksAPI.update(this.props.book, new_shelf)
-        .then(book => {
+        .then(() => {
             if(this.props.rearrange) {
-                this.props.rearrange(book);
+                // This will reload the books so that they appear in
+                // the right shelves after moving.
+                this.props.rearrange();
             }
         })
     }

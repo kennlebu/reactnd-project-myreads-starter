@@ -16,16 +16,15 @@ class BooksApp extends React.Component {
     }
 
     componentDidMount() {
+        this.loadBooks();
+    }
+
+    loadBooks = () => {
         BooksAPI.getAll()
         .then(books => {
             this.setState(() => ({
                 books: books
             }));
-
-            // // Add book ids to their respective shelves
-            // books.map(book => (
-            //     this.state.shelves.find(shelf => shelf.key === book.shelf).books.push(book.id)
-            // ));
         });
     }
 
@@ -33,7 +32,7 @@ class BooksApp extends React.Component {
         return (
             <div className="app">
                 <Route exact path="/" render={() => (
-                    <HomePage books={this.state.books} />
+                    <HomePage books={this.state.books} reloadBooks={this.loadBooks} />
                 )} />
                 <Route path="/search" render={() => (
                     <SearchPage my_books={this.state.books} />

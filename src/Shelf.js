@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import Book from './Book';
 
 class Shelf extends Component {
-    rearrangeBooks = (book) => {
-        this.props.books.find(b => {
-            if(book.id === b.id) {
-                b = book;
-            }
-            return b;
-        })
+    rearrangeBooks = () => {
+        this.props.refreshBooks();
     }
 
     render() {
