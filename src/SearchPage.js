@@ -49,6 +49,10 @@ class SearchPage extends Component {
         }
     }
 
+    reloadBooks = () => {
+        this.props.reloadBooks();
+    }
+
     render() {
         return (
             <div>
@@ -76,7 +80,7 @@ class SearchPage extends Component {
                     {!this.state.no_books && <ol className="books-grid">
                         {this.state.books.map(book => (
                             <li key={book.id}>
-                                <Book book={book} />
+                                <Book book={book} rearrange={this.reloadBooks} />
                             </li>
                         ))}
                     </ol>}

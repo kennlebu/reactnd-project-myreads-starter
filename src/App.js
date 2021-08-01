@@ -35,7 +35,7 @@ class BooksApp extends React.Component {
                     <HomePage books={this.state.books} reloadBooks={this.loadBooks} />
                 )} />
                 <Route path="/search" render={() => (
-                    <SearchPage my_books={this.state.books} />
+                    <SearchPage my_books={this.state.books} reloadBooks={this.loadBooks} />
                 )} />
             </div>
         )
